@@ -28,8 +28,8 @@
 
 .piece {
     cursor: pointer;
-    width: 80%; /* Adjust this based on your piece size */
-    height: 80%; /* Adjust this based on your piece size */
+    width: 20%; /* Adjust this based on your piece size */
+    height: 20%; /* Adjust this based on your piece size */
     position: absolute; /* Allow absolute positioning during drag */
 }
 
