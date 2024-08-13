@@ -71,6 +71,8 @@ document.addEventListener('DOMContentLoaded', () => {
             draggedPiece.style.position = 'absolute';
             draggedPiece.style.width = `${pieceWidth}px`;
             draggedPiece.style.height = `${pieceHeight}px`;
+
+            // Center the piece under the cursor
             draggedPiece.style.left = `${event.clientX - pieceWidth / 2}px`;
             draggedPiece.style.top = `${event.clientY - pieceHeight / 2}px`;
             draggedPiece.style.zIndex = 1000;
@@ -121,4 +123,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
     createChessBoard();
 });
-
