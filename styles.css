@@ -31,3 +31,9 @@
     width: 80%; /* Adjust this based on your piece size */
     height: 80%; /* Adjust this based on your piece size */
 }
+
+/* Optional: Hide default drag image */
+img {
+    -webkit-user-drag: none;
+    user-drag: none;
+}
