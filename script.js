@@ -90,8 +90,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleMouseMove(event) {
         if (draggedPiece) {
             // Update piece position to follow cursor
-            draggedPiece.style.left = `${event.clientX - draggedPiece.offsetWidth / 2}px`;
-            draggedPiece.style.top = `${event.clientY - draggedPiece.offsetHeight / 2}px`;
+            draggedPiece.style.left = `${event.clientX - offsetX}px`;
+            draggedPiece.style.top = `${event.clientY - offsetY}px`;
         }
     }
 
