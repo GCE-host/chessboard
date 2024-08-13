@@ -89,9 +89,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function handleMouseMove(event) {
         if (draggedPiece) {
-            // Update piece position to follow cursor
-            draggedPiece.style.left = `${event.clientX - draggedPiece.offsetWidth / 2}px`;
-            draggedPiece.style.top = `${event.clientY - draggedPiece.offsetHeight / 2}px`;
+            // Get the chessboard and its bounding rectangle
+            const boardRect = chessboard.getBoundingClientRect();
+            const pieceWidth = draggedPiece.offsetWidth;
+            const pieceHeight = draggedPiece.offsetHeight;
+
+            // Calculate the new position, constrained to the board boundaries
+            let newLeft = event.clientX - offsetX;
+            let newTop = event.clientY - offsetY;
+
+            // Constrain the piece within the board boundaries
+            newLeft = Math.max(boardRect.left, Math.min(newLeft, boardRect.right - pieceWidth));
+            newTop = Math.max(boardRect.top, Math.min(newTop, boardRect.bottom - pieceHeight));
+
+            // Update piece position
+            draggedPiece.style.left = `${newLeft}px`;
+            draggedPiece.style.top = `${newTop}px`;
         }
     }
 
