@@ -75,6 +75,9 @@ document.addEventListener('DOMContentLoaded', () => {
             draggedPiece.style.top = `${event.clientY - pieceHeight / 2}px`;
             draggedPiece.style.zIndex = 1000;
             draggedPiece.style.pointerEvents = 'none'; // Prevent the piece from interfering with mouse events
+
+            // Prevent default image dragging behavior
+            event.preventDefault();
         }
     }
 
