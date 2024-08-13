@@ -1,8 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const chessboard = document.getElementById('chessboard');
     let draggedPiece = null;
-    let offsetX = 0;
-    let offsetY = 0;
 
     const pieceImages = {
         'r': 'images/bR.png',
@@ -64,13 +62,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if (target.tagName === 'IMG' && target.classList.contains('piece')) {
             draggedPiece = target;
 
-            // Calculate offset from the cursor to the top-left corner of the piece
+            // Calculate the center of the piece
             const rect = draggedPiece.getBoundingClientRect();
-            offsetX = event.clientX - rect.left;
-            offsetY = event.clientY - rect.top;
+            const pieceWidth = rect.width;
+            const pieceHeight = rect.height;
 
             // Set the piece to follow the cursor directly
             draggedPiece.style.position = 'absolute';
+            draggedPiece.style.width = `${pieceWidth}px`;
+            draggedPiece.style.height = `${pieceHeight}px`;
+            draggedPiece.style.left = `${event.clientX - pieceWidth / 2}px`;
+            draggedPiece.style.top = `${event.clientY - pieceHeight / 2}px`;
             draggedPiece.style.zIndex = 1000;
             draggedPiece.style.pointerEvents = 'none'; // Prevent the piece from interfering with mouse events
         }
@@ -78,7 +80,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function handleMouseMove(event) {
         if (draggedPiece) {
-            movePiece(event.clientX, event.clientY);
+            // Update piece position to follow cursor
+            const pieceWidth = draggedPiece.offsetWidth;
+            const pieceHeight = draggedPiece.offsetHeight;
+            draggedPiece.style.left = `${event.clientX - pieceWidth / 2}px`;
+            draggedPiece.style.top = `${event.clientY - pieceHeight / 2}px`;
         }
     }
 
@@ -86,14 +92,23 @@ document.addEventListener('DOMContentLoaded', () => {
         if (draggedPiece) {
             const squareUnderMouse = document.elementFromPoint(event.clientX, event.clientY);
             if (squareUnderMouse && squareUnderMouse.classList.contains('square')) {
-                // Reset the piece style before appending to the square
-                draggedPiece.style.position = 'static';
+                // Center the piece within the target square
+                const rect = squareUnderMouse.getBoundingClientRect();
+                const pieceWidth = draggedPiece.offsetWidth;
+                const pieceHeight = draggedPiece.offsetHeight;
+                draggedPiece.style.left = `${rect.left + (rect.width - pieceWidth) / 2}px`;
+                draggedPiece.style.top = `${rect.top + (rect.height - pieceHeight) / 2}px`;
+
+                // Append the piece to the square
+                squareUnderMouse.appendChild(draggedPiece);
+
+                // Reset styles
+                draggedPiece.style.position = '';
                 draggedPiece.style.zIndex = '';
                 draggedPiece.style.pointerEvents = ''; // Restore pointer events
-                squareUnderMouse.appendChild(draggedPiece);
             } else {
                 // Reset styles if not dropped on a valid square
-                draggedPiece.style.position = 'static';
+                draggedPiece.style.position = '';
                 draggedPiece.style.zIndex = '';
                 draggedPiece.style.pointerEvents = ''; // Restore pointer events
             }
@@ -101,11 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function movePiece(clientX, clientY) {
-        // Update piece position to follow cursor
-        draggedPiece.style.left = `${clientX - offsetX}px`;
-        draggedPiece.style.top = `${clientY - offsetY}px`;
-    }
-
     createChessBoard();
 });
+
