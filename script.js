@@ -82,8 +82,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Set initial piece position
             const boardRect = chessboard.getBoundingClientRect();
-            draggedPiece.style.left = `${event.clientX - pieceWidth / 2 - boardRect.left}px`;
-            draggedPiece.style.top = `${event.clientY - pieceHeight / 2 - boardRect.top}px`;
+            draggedPiece.style.left = `${event.clientX - offsetX}px`;
+            draggedPiece.style.top = `${event.clientY - offsetY}px`;
 
             // Prevent default image dragging behavior
             event.preventDefault();
@@ -113,14 +113,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function handleMouseUp(event) {
         if (draggedPiece) {
+            const boardRect = chessboard.getBoundingClientRect();
             const squareUnderMouse = document.elementFromPoint(event.clientX, event.clientY);
             if (squareUnderMouse && squareUnderMouse.classList.contains('square')) {
                 // Center the piece within the target square
-                const rect = squareUnderMouse.getBoundingClientRect();
+                const squareRect = squareUnderMouse.getBoundingClientRect();
                 const pieceWidth = draggedPiece.offsetWidth;
                 const pieceHeight = draggedPiece.offsetHeight;
-                draggedPiece.style.left = `${rect.left + (rect.width - pieceWidth) / 2 - boardRect.left}px`;
-                draggedPiece.style.top = `${rect.top + (rect.height - pieceHeight) / 2 - boardRect.top}px`;
+                draggedPiece.style.left = `${squareRect.left + (squareRect.width - pieceWidth) / 2 - boardRect.left}px`;
+                draggedPiece.style.top = `${squareRect.top + (squareRect.height - pieceHeight) / 2 - boardRect.top}px`;
 
                 // Append the piece to the square
                 squareUnderMouse.appendChild(draggedPiece);
