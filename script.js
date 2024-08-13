@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (target.tagName === 'IMG' && target.classList.contains('piece')) {
             draggedPiece = target;
 
-            // Get the piece's size
+            // Get the piece's size and position
             const rect = draggedPiece.getBoundingClientRect();
             const pieceWidth = rect.width;
             const pieceHeight = rect.height;
@@ -79,8 +79,11 @@ document.addEventListener('DOMContentLoaded', () => {
             draggedPiece.style.height = `${pieceHeight}px`;
             draggedPiece.style.zIndex = 1000;
             draggedPiece.style.pointerEvents = 'none'; // Prevent the piece from interfering with mouse events
-            draggedPiece.style.left = `${event.clientX - pieceWidth / 2}px`;
-            draggedPiece.style.top = `${event.clientY - pieceHeight / 2}px`;
+
+            // Set initial piece position
+            const boardRect = chessboard.getBoundingClientRect();
+            draggedPiece.style.left = `${event.clientX - pieceWidth / 2 - boardRect.left}px`;
+            draggedPiece.style.top = `${event.clientY - pieceHeight / 2 - boardRect.top}px`;
 
             // Prevent default image dragging behavior
             event.preventDefault();
@@ -95,12 +98,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const pieceHeight = draggedPiece.offsetHeight;
 
             // Calculate the new position, constrained to the board boundaries
-            let newLeft = event.clientX - offsetX;
-            let newTop = event.clientY - offsetY;
+            let newLeft = event.clientX - offsetX - boardRect.left;
+            let newTop = event.clientY - offsetY - boardRect.top;
 
             // Constrain the piece within the board boundaries
-            newLeft = Math.max(boardRect.left, Math.min(newLeft, boardRect.right - pieceWidth));
-            newTop = Math.max(boardRect.top, Math.min(newTop, boardRect.bottom - pieceHeight));
+            newLeft = Math.max(0, Math.min(newLeft, chessboard.clientWidth - pieceWidth));
+            newTop = Math.max(0, Math.min(newTop, chessboard.clientHeight - pieceHeight));
 
             // Update piece position
             draggedPiece.style.left = `${newLeft}px`;
@@ -116,8 +119,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const rect = squareUnderMouse.getBoundingClientRect();
                 const pieceWidth = draggedPiece.offsetWidth;
                 const pieceHeight = draggedPiece.offsetHeight;
-                draggedPiece.style.left = `${rect.left + (rect.width - pieceWidth) / 2}px`;
-                draggedPiece.style.top = `${rect.top + (rect.height - pieceHeight) / 2}px`;
+                draggedPiece.style.left = `${rect.left + (rect.width - pieceWidth) / 2 - boardRect.left}px`;
+                draggedPiece.style.top = `${rect.top + (rect.height - pieceHeight) / 2 - boardRect.top}px`;
 
                 // Append the piece to the square
                 squareUnderMouse.appendChild(draggedPiece);
