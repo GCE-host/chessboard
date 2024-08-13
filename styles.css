@@ -28,10 +28,10 @@
 
 .piece {
     cursor: pointer;
-    width: 80%; /* Adjust this based on your piece size */
-    height: 80%; /* Adjust this based on your piece size */
+    width: 80%; /* Adjust based on piece size */
+    height: 80%; /* Adjust based on piece size */
+    position: absolute; /* Required for dragging */
 }
-
 
 /* Optional: Hide default drag image */
 img {
