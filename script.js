@@ -5,18 +5,18 @@ document.addEventListener('DOMContentLoaded', () => {
     let offsetY = 0;
 
     const pieceImages = {
-        'r': 'chessboard/images/bR.png',
-        'n': 'chessboard/images/bN.png',
-        'b': 'chessboard/images/bB.png',
-        'q': 'chessboard/images/bQ.png',
-        'k': 'chessboard/images/bK.png',
-        'p': 'chessboard/images/bP.png',
-        'R': 'chessboard/images/wR.png',
-        'N': 'chessboard/images/wN.png',
-        'B': 'chessboard/images/wB.png',
-        'Q': 'chessboard/images/wQ.png',
-        'K': 'chessboard/images/wK.png',
-        'P': 'chessboard/images/wP.png'
+        'r': 'images/bR.png',
+        'n': 'images/bN.png',
+        'b': 'images/bB.png',
+        'q': 'images/bQ.png',
+        'k': 'images/bK.png',
+        'p': 'images/bP.png',
+        'R': 'images/wR.png',
+        'N': 'images/wN.png',
+        'B': 'images/wB.png',
+        'Q': 'images/wQ.png',
+        'K': 'images/wK.png',
+        'P': 'images/wP.png'
     };
 
     function createChessBoard() {
