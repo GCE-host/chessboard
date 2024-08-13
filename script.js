@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     const chessboard = document.getElementById('chessboard');
     let draggedPiece = null;
+    let offsetX = 0;
+    let offsetY = 0;
 
     const pieceImages = {
         'r': 'images/bR.png',
@@ -62,21 +64,23 @@ document.addEventListener('DOMContentLoaded', () => {
         if (target.tagName === 'IMG' && target.classList.contains('piece')) {
             draggedPiece = target;
 
-            // Calculate the center of the piece
+            // Get the piece's size
             const rect = draggedPiece.getBoundingClientRect();
             const pieceWidth = rect.width;
             const pieceHeight = rect.height;
+
+            // Calculate offset from the cursor to the piece's center
+            offsetX = event.clientX - (rect.left + pieceWidth / 2);
+            offsetY = event.clientY - (rect.top + pieceHeight / 2);
 
             // Set the piece to follow the cursor directly
             draggedPiece.style.position = 'absolute';
             draggedPiece.style.width = `${pieceWidth}px`;
             draggedPiece.style.height = `${pieceHeight}px`;
-
-            // Center the piece under the cursor
-            draggedPiece.style.left = `${event.clientX - pieceWidth / 2}px`;
-            draggedPiece.style.top = `${event.clientY - pieceHeight / 2}px`;
             draggedPiece.style.zIndex = 1000;
             draggedPiece.style.pointerEvents = 'none'; // Prevent the piece from interfering with mouse events
+            draggedPiece.style.left = `${event.clientX - pieceWidth / 2}px`;
+            draggedPiece.style.top = `${event.clientY - pieceHeight / 2}px`;
 
             // Prevent default image dragging behavior
             event.preventDefault();
@@ -86,10 +90,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleMouseMove(event) {
         if (draggedPiece) {
             // Update piece position to follow cursor
-            const pieceWidth = draggedPiece.offsetWidth;
-            const pieceHeight = draggedPiece.offsetHeight;
-            draggedPiece.style.left = `${event.clientX - pieceWidth / 2}px`;
-            draggedPiece.style.top = `${event.clientY - pieceHeight / 2}px`;
+            draggedPiece.style.left = `${event.clientX - draggedPiece.offsetWidth / 2}px`;
+            draggedPiece.style.top = `${event.clientY - draggedPiece.offsetHeight / 2}px`;
         }
     }
 
